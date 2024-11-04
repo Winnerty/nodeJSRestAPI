@@ -1,46 +1,20 @@
 const express = require("express")
 const router = express.Router()
 
-usersArray = [
-	{
-	  "ID": 1,
-	  "firstName": "John",
-	  "lastName": "Doe"
-	},
-	{
-	  "ID": 2,
-	  "firstName": "Jane",
-	  "lastName": "Smith"
-	},
-	{
-	  "ID": 3,
-	  "firstName": "Michael",
-	  "lastName": "Johnson"
-	},
-	{
-	  "ID": 4,
-	  "firstName": "Emily",
-	  "lastName": "Davis"
-	},
-	{
-	  "ID": 5,
-	  "firstName": "Ivan",
-	  "lastName": "Ivanov"
-	},
-	{
-	  "ID": 7,
-	  "firstName": "Anton",
-	  "lastName": "Ivanov"
-	}
-]
+const db = require("../database")
 
 //GET METHOD
 router.get("/users", (req, res) => {
-	res.json(usersArray)
+	db.all('SELECT * FROM users', [], (err, rows) => {
+		if (err) 
+			res.status(500).json({ error: err.message })
+		else 
+			res.json(rows)
+	  })
 })
 
 //POST METHOD
-app.post("/", (req, res) => {
+router.post("/users", (req, res) => {
     const { firstName, lastName } = req.body
 
 	const newUser = {
@@ -59,7 +33,7 @@ app.post("/", (req, res) => {
 })
 
 //PUT METHOD
-app.put("/:id", (req, res) => {
+router.put("/users/:id", (req, res) => {
 	const { firstName, lastName } = req.body
 
     const userId = parseInt(req.params.id)
@@ -80,7 +54,7 @@ app.put("/:id", (req, res) => {
 })
 
 //DELETE METHOD
-app.delete("/:id", (req, res) => {
+router.delete("/users/:id", (req, res) => {
 	const userId = parseInt(req.params.id)
     const len = usersArray.length
 
