@@ -1,7 +1,10 @@
 const express = require("express")
 const router = express.Router()
+const { checkApiKey } = require("../middleware/checkApiKey")
 const { getAllUsers,
         createNewUser,
+        updateUser,
+        deleteUser,
  } = require("../controllers/usersControllers")
 
 const db = require("../database")
@@ -10,43 +13,12 @@ const db = require("../database")
 router.get("/users", getAllUsers)
 
 //POST METHOD
-router.post("/users", )
+router.post("/users", createNewUser)
 
 //PUT METHOD
-router.put("/users/:id", (req, res) => {
-	const { firstName, lastName } = req.body
-
-    const userId = parseInt(req.params.id)
-
-	const user = usersArray.find(user => user.ID === userId)
-
-    if (!user) {
-		return res.status(404).json({ msg: "User not found" })
-	}
-    
-    if (firstName) user.firstName = firstName
-	if (lastName) user.lastName = lastName
-
-	res.json({
-        msg: "user updated",
-        user,
-    })
-})
+router.put("/users/:id", updateUser)
 
 //DELETE METHOD
-router.delete("/users/:id", (req, res) => {
-	const userId = parseInt(req.params.id)
-    const len = usersArray.length
-
-	usersArray = usersArray.filter(user => user.ID !== userId)
-
-	if (usersArray.length === len) 
-		return res.status(404).json({ msg: "User not found" })
-	
-	res.json({
-		msg: "user deleted",
-        id: userId
-	})
-})
+router.delete("/users/:id", deleteUser)
 
 module.exports = router
