@@ -1,36 +1,16 @@
 const express = require("express")
 const router = express.Router()
+const { getAllUsers,
+        createNewUser,
+ } = require("../controllers/usersControllers")
 
 const db = require("../database")
 
 //GET METHOD
-router.get("/users", (req, res) => {
-	db.all('SELECT * FROM users', [], (err, rows) => {
-		if (err) 
-			res.status(500).json({ error: err.message })
-		else 
-			res.json(rows)
-	  })
-})
+router.get("/users", getAllUsers)
 
 //POST METHOD
-router.post("/users", (req, res) => {
-    const { firstName, lastName } = req.body
-
-	const newUser = {
-        ID: usersArray.length > 0 ? usersArray[usersArray.length - 1].ID + 1 : 1,
-        firstName,
-        lastName,
-    }
-
-	usersArray.push(newUser)
-
-    res.status(201).json({
-        msg: "new user added",
-        firstName,
-        lastName,
-    })
-})
+router.post("/users", )
 
 //PUT METHOD
 router.put("/users/:id", (req, res) => {
