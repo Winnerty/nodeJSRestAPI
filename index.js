@@ -21,7 +21,7 @@ app.use("/api/", usersRouter)
 
 //HOME GET METHOD
 app.get("/", (req, res) => {
-    res.json(usersArray)
+    res.json()
 })
 
 app.listen(port, () => {
